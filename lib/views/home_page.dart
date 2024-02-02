@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
             itemCount: news.dataSave.length,
             itemBuilder: (context, index) {
               var article = news.dataSave[index];
+              print('CEK TITLE : ${article.title}');
               return ListTile(
                 title: Text(article.title),
                 subtitle: Text(article.description),

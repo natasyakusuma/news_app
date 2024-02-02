@@ -7,7 +7,7 @@ import 'package:news_app/views/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('favorites'); // Open a Hive box for favorites
+  // await Hive.openBox('favorites'); // Open a Hive box for favorites
   runApp(MyApp());
 }
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: HomePage(),
+      home: HomePage(), //ini harusnya homepage harus bawa homepage
     );
   }
 }
