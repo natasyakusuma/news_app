@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/favorite_controller.dart';
 import '../data_source/news_data.dart';
 
@@ -50,21 +50,33 @@ class HomePage extends StatelessWidget {
             itemBuilder: (context, index) {
               var article = news.dataSave[index];
               print('CEK TITLE : ${article.title}');
-              return ListTile(
-                title: Text(article.title),
-                subtitle: Text(article.description),
-                onTap: () {
-                  DefaultTabController.of(context)?.animateTo(1);
-                },
-                trailing: Stack(
-                  children: [
-                    // Love icon
-                    Icon(
+              return Card(
+                child: ListTile(
+                  onTap: () {
+                    print('MASUK FUNGSI LAUNCH ${_launchUrl}');
+                    _launchUrl(
+                        Uri.parse(article.url ?? '')
+                    );
+                  },
+                  title: Image.network(
+                    article.urlToImage,
+                    height: 200,
+                  ),
+                  subtitle: Text(article.title),
+
+                  trailing: IconButton(
+                    icon: Icon(
+                      // article.isFavorites
+                      //     ? Icons.favorite
+                      //     : Icons.favorite_border,
                       Icons.favorite_border,
                       color: Colors.red,
                     ),
-                    // Optional: Show a count or other indicators
-                  ],
+                    onPressed: () {
+                      // article.isFavorites = !article.isFavorites;
+                      // Get.forceAppUpdate();
+                    },
+                  ),
                 ),
               );
             },
@@ -73,6 +85,7 @@ class HomePage extends StatelessWidget {
       },
     );
   }
+
 
   // Favorites Tab Content
   Widget buildFavoritesTab() {
@@ -96,4 +109,12 @@ class HomePage extends StatelessWidget {
       },
     );
   }
+
+  Future<void> _launchUrl(Uri url) async {
+    print('URL SUDAH MASUK ${url}');
+    if (!await launchUrl(url)){
+      throw Exception('Could not launch');
+    }
+  }
 }
+
